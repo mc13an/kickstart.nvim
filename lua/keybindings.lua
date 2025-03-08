@@ -1,0 +1,13 @@
+-- ufo
+vim.keymap.set("n", "zR", function()
+	require("ufo").openAllFolds()
+end)
+vim.keymap.set("n", "zr", function()
+	require("ufo").openFoldsExceptKinds()
+end)
+vim.keymap.set("n", "zM", function()
+	require("ufo").closeAllFolds()
+end)
+vim.keymap.set("n", "zm", function()
+	require("ufo").closeFoldsWith()
+end) -- closeAllFolds == closeFoldsWith(0)

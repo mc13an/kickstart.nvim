@@ -102,7 +102,7 @@ vim.g.have_nerd_font = true
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -249,7 +249,7 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
-  {
+  { -- Folds with ufo
     'kevinhwang91/nvim-ufo',
     dependencies = {
       'kevinhwang91/promise-async', -- Required dependency
@@ -389,7 +389,7 @@ require('lazy').setup({
   -- NOTE: Plugins can specify dependencies.
   --
   -- The dependencies are proper plugin specifications as well - anything
-  -- you do for a plugin at the top level, you can do for a dependency.
+  -- you do for a plugin at the top levelq, you can do for a dependency.
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
@@ -717,7 +717,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
         --
 
         tailwindcss = {},
@@ -732,6 +732,24 @@ require('lazy').setup({
               },
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
               -- diagnostics = { disable = { 'missing-fields' } },
+              runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in Neovim)
+                version = 'LuaJIT',
+                -- Setup your lua path
+                path = vim.split(package.path, ';'),
+              },
+              diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = { 'vim' },
+              },
+              workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file('', true),
+                checkThirdParty = false,
+              },
+              telemetry = {
+                enable = false,
+              },
             },
           },
         },
@@ -781,7 +799,7 @@ require('lazy').setup({
       {
         '<leader>f',
         function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
+          require('conform').format { async = true, lsp_format = 'never' }
         end,
         mode = '',
         desc = '[F]ormat buffer',
@@ -809,7 +827,9 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascript = { 'biome', 'biome-organize-imports' },
+        typescript = { 'biome', 'biome-organize-imports', 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'biome', 'biome-organize-imports', 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -934,10 +954,8 @@ require('lazy').setup({
       vim.cmd.colorscheme 'tokyonight-night'
     end,
   },
-
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
@@ -975,27 +993,9 @@ require('lazy').setup({
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
-
-  {
+  { -- GitHub Copilot
     'github/copilot.vim',
     event = 'InsertEnter', -- Load only when starting to type
-  },
-  {
-    'romgrk/barbar.nvim',
-    dependencies = {
-      'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
-      'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
-    },
-    init = function()
-      vim.g.barbar_auto_setup = false
-    end,
-    opts = {
-      -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
-      -- animation = true,
-      -- insert_at_start = true,
-      -- …etc.
-    },
-    version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
@@ -1021,6 +1021,23 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  },
+
+  { -- none-ls
+    'nvimtools/none-ls.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local null_ls = require 'null-ls'
+      null_ls.setup {
+        sources = {
+          null_ls.builtins.formatting.biome,
+          null_ls.builtins.diagnostics.biome,
+          null_ls.builtins.diagnostics.cspell,
+          null_ls.builtins.code_actions.cspell,
+        },
+      }
+    end,
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the

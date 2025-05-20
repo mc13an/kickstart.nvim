@@ -89,22 +89,69 @@ return {
       -- You can provide additional configuration to the handlers,
       -- see mason-nvim-dap README for more information
       handlers = {},
+      configurations = {
+        ['pwa-node'] = {
+          type = 'node',
+          request = 'launch',
+          name = 'Launch Program',
+          program = '${workspaceFolder}/app.js',
+          cwd = '${workspaceFolder}',
+          runtimeExecutable = 'node',
+          runtimeArgs = { '--inspect-brk' },
+        },
+        ['delve'] = {
+          type = 'go',
+          name = 'Debug',
+          request = 'launch',
+          mode = 'auto',
+          program = '${fileDirname}',
+        },
+      },
 
       -- You'll need to check that you have the required things installed
       -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
+        'js-debug-adapter',
       },
     }
 
+    dap.adapters['pwa-node'] = {
+      type = 'server',
+      host = 'localhost',
+      port = '${port}',
+      executable = {
+        command = 'js-debug-adapter',
+        args = { '${port}' },
+      },
+    }
+
+    dap.configurations.typescript = {
+      {
+        type = 'pwa-node',
+        request = 'launch',
+        name = 'Launch Current File (ts-node)',
+        cwd = '${workspaceFolder}',
+        runtimeArgs = { '--loader', 'ts-node/esm' },
+        runtimeExecutable = 'node',
+        args = { '${file}' },
+        sourceMaps = true,
+        protocol = 'inspector',
+        skipFiles = { '<node_internals>/**', 'node_modules/**' },
+        resolveSourceMapLocations = {
+          '${workspaceFolder}/**',
+          '!**/node_modules/**',
+        },
+      },
+    }
     -- Dap UI setup
     -- For more information, see |:help nvim-dap-ui|
     dapui.setup {
       -- Set icons to characters that are more likely to work in every terminal.
       --    Feel free to remove or use ones that you like more! :)
       --    Don't feel like these are good choices.
-      icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+      icons = { expanded = '▾', collapsed = '▸', current_frame = '*', breakpoint = '●' },
       controls = {
         icons = {
           pause = '⏸',

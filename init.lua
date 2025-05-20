@@ -35,6 +35,11 @@ end)
 -- Enable break indent
 vim.o.breakindent = true
 
+vim.o.tabstop = 2 -- Number of spaces for a <Tab>
+vim.o.shiftwidth = 2 -- Number of spaces to use for autoindent
+vim.o.expandtab = true -- Use spaces instead of tabs
+vim.o.smartindent = true
+vim.o.autoindent = true
 -- Save undo history
 vim.o.undofile = true
 

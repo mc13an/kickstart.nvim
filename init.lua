@@ -171,34 +171,6 @@ if not vim.g.vscode then
     -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
     -- 'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
-    { -- Folds with ufo
-      'kevinhwang91/nvim-ufo',
-      dependencies = {
-        'kevinhwang91/promise-async', -- Required dependency
-      },
-      config = function()
-        -- Folding options
-        vim.o.foldcolumn = '1' -- '0' is not bad
-        vim.o.foldlevel = 99 -- using ufo provider need a large value
-        vim.o.foldlevelstart = 99
-        vim.o.foldenable = true
-
-        require('ufo').setup {
-          provider_selector = function(bufnr, filetype, buftype)
-            return { 'lsp', 'indent' } -- or 'treesitter', 'syntax'
-          end,
-        }
-        vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
-        vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
-        vim.keymap.set('n', 'z2', function()
-          require('ufo').closeFoldsWith(2)
-        end, { desc = 'Fold to level 2' })
-
-        vim.keymap.set('n', 'z1', function()
-          require('ufo').closeFoldsWith(1)
-        end, { desc = 'Fold to level 1' })
-      end,
-    },
     -- NOTE: Plugins can also be added by using a table,
     -- with the first argument being the link and the following
     -- keys can be used to configure plugin behavior/loading/etc.
@@ -206,41 +178,7 @@ if not vim.g.vscode then
     -- Use `opts = {}` to automatically pass options to a plugin's `setup()` function, forcing the plugin to be loaded.
     --
 
-    -- Alternatively, use `config = function() ... end` for full control over the configuration.
-    -- If you prefer to call `setup` explicitly, use:
-    --    {
-    --        'lewis6991/gitsigns.nvim',
-    --        config = function()
-    --            require('gitsigns').setup({
-    --                -- Your gitsigns configuration here
-    --            })
-    --        end,
-    --    }
-    --
-    -- Here is a more advanced example where we pass configuration
-    -- options to `gitsigns.nvim`.
-    --
-    -- See `:help gitsigns` to understand what the configuration keys do
-    { -- Adds git related signs to the gutter, as well as utilities for managing changes
-      'lewis6991/gitsigns.nvim',
-      opts = {
-        signs = {
-          add = { text = '+' },
-          change = { text = '~' },
-          delete = { text = '_' },
-          topdelete = { text = '‾' },
-          changedelete = { text = '~' },
-        },
-      },
-    },
-
     -- add this to your lua/plugins.lua, lua/plugins/init.lua,  or the file you keep your other plugins:
-    {
-      'numToStr/Comment.nvim',
-      opts = {
-        -- add any options here
-      },
-    },
     -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
     --
     -- This is often very useful to both group configuration, as well as handle
@@ -336,7 +274,7 @@ if not vim.g.vscode then
         { 'nvim-telescope/telescope-ui-select.nvim' },
 
         -- Useful for getting pretty icons, but requires a Nerd Font.
-        { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+        -- { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
       },
       config = function()
         -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -880,7 +818,7 @@ if not vim.g.vscode then
     -- Highlight todo, notes, etc in comments
     { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
     { -- Collection of various small independent plugins/modules
-      'echasnovski/mini.nvim',
+      'nvim-mini/mini.nvim',
       config = function()
         -- Better Around/Inside textobjects
         --
@@ -896,6 +834,12 @@ if not vim.g.vscode then
         -- - sd'   - [S]urround [D]elete [']quotes
         -- - sr)'  - [S]urround [R]eplace [)] [']
         require('mini.surround').setup()
+        require('mini.indentscope').setup()
+        require('mini.notify').setup()
+        require('mini.animate').setup()
+        require('mini.starter').setup()
+        require('mini.icons').setup()
+        require('mini.tabline').setup()
 
         -- Simple and easy statusline.
         --  You could remove this setup call if you don't like it,
@@ -970,12 +914,12 @@ if not vim.g.vscode then
     --  Here are some example plugins that I've included in the Kickstart repository.
     --  Uncomment any of the lines below to enable them (you will need to restart nvim).
     --
-    require 'kickstart.plugins.debug',
-    require 'kickstart.plugins.indent_line',
+    -- require 'kickstart.plugins.debug',
+    -- require 'kickstart.plugins.indent_line',
     -- require 'kickstart.plugins.lint',
     require 'kickstart.plugins.autopairs',
     require 'kickstart.plugins.neo-tree',
-    -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+    require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
     -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
     --    This is the easiest way to modularize your config.

@@ -204,21 +204,6 @@ if not vim.g.vscode then
 
 
 
-    { -- none-ls
-      'nvimtools/none-ls.nvim',
-      event = { 'BufReadPre', 'BufNewFile' },
-      dependencies = { 'nvim-lua/plenary.nvim' },
-      config = function()
-        local null_ls = require 'null-ls'
-        null_ls.setup {
-          sources = {
-            null_ls.builtins.formatting.biome,
-            null_ls.builtins.diagnostics.codespell,
-            null_ls.builtins.formatting.codespell,
-          },
-        }
-      end,
-    },
     -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
     -- init.lua. If you want these files, they are in the repository, so you can just download them and
     -- place them in the correct locations.

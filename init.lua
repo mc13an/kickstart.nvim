@@ -203,10 +203,6 @@ if not vim.g.vscode then
 
 
 
-    { -- GitHub Copilot
-      'github/copilot.vim',
-      event = 'InsertEnter', -- Load only when starting to type
-    },
     { -- Highlight, edit, and navigate code
       'nvim-treesitter/nvim-treesitter',
       build = ':TSUpdate',

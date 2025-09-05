@@ -22,6 +22,47 @@ return {
     require('mini.starter').setup()
     require('mini.icons').setup()
     require('mini.tabline').setup()
+    require('mini.cursorword').setup()
+    require('mini.files').setup {
+      mappings = {
+        go_in = 'l',
+        go_in_plus = '<CR>',
+        go_out = 'h',
+        go_out_plus = '-',
+        reset = '<BS>',
+        reveal_cwd = '@',
+        show_help = 'g?',
+        synchronize = '=',
+        trim_left = '<',
+        trim_right = '>',
+      },
+    }
+
+    -- Custom mappings for opening files in splits
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'MiniFilesBufferCreate',
+      callback = function(args)
+        local buf_id = args.data.buf_id
+        vim.keymap.set('n', '<C-x>', function()
+          local entry = require('mini.files').get_fs_entry()
+          if entry and entry.fs_type == 'file' then
+            vim.cmd('split ' .. entry.path)
+          end
+        end, { buffer = buf_id, desc = 'Open in horizontal split' })
+
+        vim.keymap.set('n', '<C-y>', function()
+          local entry = require('mini.files').get_fs_entry()
+          if entry and entry.fs_type == 'file' then
+            vim.cmd('vsplit ' .. entry.path)
+          end
+        end, { buffer = buf_id, desc = 'Open in vertical split' })
+      end,
+    })
+
+    -- Keybinding for mini.files
+    vim.keymap.set('n', '<leader>fm', function()
+      MiniFiles.open(vim.api.nvim_buf_get_name(0))
+    end, { desc = '[F]ile [M]anager (Mini Files)' })
 
     -- Simple and easy statusline.
     --  You could remove this setup call if you don't like it,

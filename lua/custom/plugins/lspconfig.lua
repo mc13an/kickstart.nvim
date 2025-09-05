@@ -10,7 +10,7 @@ return {
     'WhoIsSethDaniel/mason-tool-installer.nvim',
 
     -- Useful status updates for LSP.
-    { 'j-hui/fidget.nvim', opts = {} },
+    -- { 'j-hui/fidget.nvim', opts = {} },
 
     -- Allows extra capabilities provided by blink.cmp
     'saghen/blink.cmp',
@@ -153,7 +153,12 @@ return {
     -- See :help vim.diagnostic.Opts
     vim.diagnostic.config {
       severity_sort = true,
-      float = { border = 'rounded', source = 'if_many' },
+      float = {
+        border = 'rounded',
+        source = 'if_many',
+        wrap = true,
+        max_width = 80,
+      },
       underline = { severity = vim.diagnostic.severity.ERROR },
       signs = vim.g.have_nerd_font and {
         text = {
@@ -205,7 +210,6 @@ return {
       --
       -- But for many setups, the LSP (`ts_ls`) will work just fine
       ts_ls = {},
-      
       -- GraphQL Language Server for schema-aware completions
       graphql = {
         filetypes = { 'graphql', 'typescriptreact', 'javascriptreact', 'typescript', 'javascript' },
@@ -281,3 +285,4 @@ return {
     }
   end,
 }
+

@@ -17,6 +17,10 @@ return {
       end,
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
+    {
+      'nvim-telescope/telescope-frecency.nvim',
+      dependencies = { 'kkharji/sqlite.lua' },
+    },
 
     -- Useful for getting pretty icons, but requires a Nerd Font.
     -- { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
@@ -47,12 +51,33 @@ return {
       -- You can put your default mappings / updates / etc. in here
       --  All the info you're looking for is in `:help telescope.setup()`
       --
-      -- defaults = {
-      --   mappings = {
-      --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-      --   },
-      -- },
-      -- pickers = {}
+      defaults = {
+        path_display = { 'truncate' }, -- or use 'smart' for smart path shortening
+        layout_config = {
+          horizontal = {
+            preview_width = 0.55,
+            results_width = 0.8,
+          },
+          width = 0.87,
+          height = 0.80,
+        },
+        -- mappings = {
+        --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+        -- },
+      },
+      pickers = {
+        find_files = {
+          theme = 'ivy',
+          -- previewer = false,
+          -- layout_config = { height = 0.5 },
+          -- hidden = true,
+        },
+        buffers = {
+          theme = 'ivy',
+          sort_lastused = true,
+          sort_mru = true,
+        },
+      },
       extensions = {
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),
@@ -63,6 +88,7 @@ return {
     -- Enable Telescope extensions if they are installed
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
+    pcall(require('telescope').load_extension, 'frecency')
 
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
@@ -101,5 +127,9 @@ return {
     vim.keymap.set('n', '<leader>sn', function()
       builtin.find_files { cwd = vim.fn.stdpath 'config' }
     end, { desc = '[S]earch [N]eovim files' })
+
+    -- Frecency-based file search (files sorted by frequency and recency)
+    vim.keymap.set('n', '<leader>fr', '<Cmd>Telescope frecency<CR>', { desc = '[F]iles by [R]ecency/Frequency' })
   end,
 }
+

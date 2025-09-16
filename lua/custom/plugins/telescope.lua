@@ -52,7 +52,11 @@ return {
       --  All the info you're looking for is in `:help telescope.setup()`
       --
       defaults = {
-        path_display = { 'truncate' }, -- or use 'smart' for smart path shortening
+        path_display = {
+          filename_first = {
+            reverse_directories = true,
+          },
+        }, -- or use 'smart' for smart path shortening
         layout_config = {
           horizontal = {
             preview_width = 0.55,
@@ -77,10 +81,21 @@ return {
           sort_lastused = true,
           sort_mru = true,
         },
+        oldfiles = {
+          theme = 'ivy',
+          sort_lastused = true,
+          cwd_only = true,
+        },
       },
       extensions = {
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),
+        },
+
+        frecency = {
+          show_scores = true,
+          show_filter_column = false,
+          workspace = 'CWD',
         },
       },
     }
@@ -94,7 +109,8 @@ return {
     local builtin = require 'telescope.builtin'
     vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
     vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-    vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+    vim.keymap.set('n', '<leader>sf', '<cmd>Telescope frecency workspace=CWD theme=ivy<cr>', { desc = '[S]earch [F]iles (by frecency)' })
+    vim.keymap.set('n', '<leader>sF', builtin.find_files, { desc = '[S]earch All [F]iles' })
     -- vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[S]earch [F]iles' })
     -- vim.keymap.set('n', '<C-p>', builtin.find_files, { desc = '[S]earch [F]iles' })
     vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
@@ -132,4 +148,3 @@ return {
     vim.keymap.set('n', '<leader>fr', '<Cmd>Telescope frecency<CR>', { desc = '[F]iles by [R]ecency/Frequency' })
   end,
 }
-

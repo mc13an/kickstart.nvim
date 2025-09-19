@@ -64,6 +64,10 @@ return {
       MiniFiles.open(vim.api.nvim_buf_get_name(0))
     end, { desc = '[F]ile [M]anager (Mini Files)' })
 
+    -- Keybindings for mini.tabline navigation
+    vim.keymap.set('n', '[[', '<cmd>:bprev<CR>', { desc = '[T]ab [N]ext' })
+    vim.keymap.set('n', ']]', '<cmd>:bnext<CR>', { desc = '[T]ab [P]revious' })
+
     -- Simple and easy statusline.
     --  You could remove this setup call if you don't like it,
     --  and try some other statusline plugin

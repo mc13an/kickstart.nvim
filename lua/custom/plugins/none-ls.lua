@@ -10,10 +10,14 @@ return {
     null_ls.setup {
       debug = true, -- Enable debug mode to see what's happening
       sources = {
+
         -- Formatting
         null_ls.builtins.formatting.prettierd,
         null_ls.builtins.formatting.stylua,
+        null_ls.builtins.formatting.swiftformat,
+
         -- Diagnostics
+        null_ls.builtins.diagnostics.swiftlint,
         require 'none-ls.diagnostics.eslint_d',
         -- Cspell spell checking
         cspell.diagnostics.with {
@@ -21,6 +25,7 @@ return {
             diagnostic.severity = vim.diagnostic.severity.HINT
           end,
         },
+
         -- Code Actions
         require 'none-ls.code_actions.eslint_d',
         cspell.code_actions,

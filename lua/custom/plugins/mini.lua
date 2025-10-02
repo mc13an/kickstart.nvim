@@ -19,10 +19,10 @@ return {
     require('mini.indentscope').setup()
     require('mini.notify').setup()
     require('mini.animate').setup()
-    require('mini.starter').setup()
     require('mini.icons').setup()
     require('mini.tabline').setup()
     require('mini.cursorword').setup()
+    require('mini.sessions').setup()
     require('mini.files').setup {
       mappings = {
         go_in = 'l',
@@ -38,6 +38,13 @@ return {
       },
     }
 
+    local starter = require 'mini.starter'
+    starter.setup {
+      items = {
+        starter.sections.sessions(5, true),
+        starter.sections.recent_files(5, true, false),
+      },
+    }
     -- Custom mappings for opening files in splits
     vim.api.nvim_create_autocmd('User', {
       pattern = 'MiniFilesBufferCreate',

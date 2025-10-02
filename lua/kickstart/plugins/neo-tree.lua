@@ -12,14 +12,23 @@ return {
   lazy = false,
   keys = {
     { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
-    { '<C-n>', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
   },
   opts = {
+    event_handlers = {
+      {
+        event = 'neo_tree_buffer_enter',
+        handler = function()
+          vim.opt_local.relativenumber = true
+        end,
+      },
+    },
     filesystem = {
       window = {
         mappings = {
           ['\\'] = 'close_window',
         },
+        position = 'left',
+        width = 45,
       },
     },
   },

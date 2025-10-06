@@ -100,6 +100,10 @@ return {
       },
     }
 
+    require('telescope-frecency').setup {
+      db_safe_mode = false,
+    }
+
     -- Enable Telescope extensions if they are installed
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')

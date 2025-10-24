@@ -6,6 +6,9 @@ if not vim.g.vscode then
   vim.g.mapleader = ' '
   vim.g.maplocalleader = ' '
 
+  -- remove auto comments on new line
+  vim.cmd 'autocmd BufEnter * set formatoptions-=cro'
+  vim.cmd 'autocmd BufEnter * setlocal formatoptions-=cro'
   -- Set to true if you have a Nerd Font installed and selected in the terminal
   vim.g.have_nerd_font = true
 

@@ -105,6 +105,16 @@ if not vim.g.vscode then
   -- or just use <C-\><C-n> to exit terminal mode
   vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+  -- Swift-specific settings
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'swift',
+    callback = function()
+      vim.opt_local.tabstop = 2
+      vim.opt_local.shiftwidth = 2
+      vim.opt_local.expandtab = true
+    end,
+  })
+
   -- TIP: Disable arrow keys in normal mode
   -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
   -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')

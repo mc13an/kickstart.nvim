@@ -14,10 +14,10 @@ return {
         -- Formatting
         null_ls.builtins.formatting.prettierd,
         null_ls.builtins.formatting.stylua,
-        null_ls.builtins.formatting.swiftformat,
+        null_ls.builtins.formatting.swiftlint,
 
         -- Diagnostics
-        null_ls.builtins.diagnostics.swiftlint,
+        -- null_ls.builtins.diagnostics.swiftlint,
         require 'none-ls.diagnostics.eslint_d',
         -- Cspell spell checking
         cspell.diagnostics.with {

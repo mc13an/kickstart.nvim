@@ -23,8 +23,16 @@ return {
       },
     },
     filesystem = {
+      filtered_items = {
+        hide_dotfiles = false,
+        hide_gitignored = false,
+      },
       window = {
         mappings = {
+          ['P'] = function(state)
+            local node = state.tree:get_node()
+            require('neo-tree.ui.renderer').focus_node(state, node:get_parent_id())
+          end,
           ['\\'] = 'close_window',
         },
         position = 'left',

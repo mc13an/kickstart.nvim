@@ -181,6 +181,7 @@ return {
       --
       -- But for many setups, the LSP (`ts_ls`) will work just fine
       ts_ls = {},
+      jsonls = {},
       -- GraphQL Language Server for schema-aware completions
       graphql = {
         filetypes = { 'graphql', 'typescriptreact', 'javascriptreact', 'typescript', 'javascript' },

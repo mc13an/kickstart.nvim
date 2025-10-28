@@ -27,10 +27,9 @@ return {
         require('ufo').closeFoldsWith(1)
       end, { desc = 'Fold to level 1' })
 
-      -- Fold level 2
-      vim.keymap.set('n', '<leader>f2', function()
-        require('ufo').closeFoldsWith(2)
-      end, { desc = 'Fold to levl 2' })
+      vim.keymap.set('n', '<leader>fA', function()
+        require('ufo').closeFoldsWith(0)
+      end, { desc = 'Close all folds under cursor' })
     end,
   },
 }

@@ -68,13 +68,46 @@ return {
         -- mappings = {
         --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         -- },
+        vimgrep_arguments = {
+          'rg',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case',
+          '--hidden', -- This flag enables searching in hidden files
+          -- Exclude some patterns from search  "--glob=!**/.git/*",
+          '--glob=!**/.idea/*',
+          '--glob=!**/.vscode/*',
+          '--glob=!**/build/*',
+          '--glob=!**/dist/*',
+          '--glob=!**/yarn.lock',
+          '--glob=!**/package-lock.json',
+          '--glob=!**/pnpm-lock.*',
+          '--glob=!**/node_modules/*', -- Exclude node_modules, etc.
+        },
       },
       pickers = {
         find_files = {
+          hidden = true,
           theme = 'ivy',
           -- previewer = false,
           -- layout_config = { height = 0.5 },
-          -- hidden = true,
+          find_command = {
+            'rg',
+            '--files',
+            '--hidden',
+            '--glob=!**/.git/*',
+            '--glob=!**/.idea/*',
+            '--glob=!**/.vscode/*',
+            '--glob=!**/build/*',
+            '--glob=!**/dist/*',
+            '--glob=!**/yarn.lock',
+            '--glob=!**/package-lock.json',
+            '--glob=!**/pnpm-lock.json',
+            '--glob=!**/node_modules/*', -- Exclude node_modules, etc.
+          },
         },
         buffers = {
           theme = 'ivy',

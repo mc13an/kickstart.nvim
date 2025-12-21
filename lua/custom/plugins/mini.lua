@@ -38,13 +38,13 @@ return {
       },
     }
 
-    local starter = require 'mini.starter'
-    starter.setup {
-      items = {
-        starter.sections.sessions(5, true),
-        starter.sections.recent_files(5, true, false),
-      },
-    }
+    -- local starter = require 'mini.starter'
+    -- starter.setup {
+    --   items = {
+    --     starter.sections.sessions(5, true),
+    --     starter.sections.recent_files(5, true, false),
+    --   },
+    -- }
     -- Custom mappings for opening files in splits
     vim.api.nvim_create_autocmd('User', {
       pattern = 'MiniFilesBufferCreate',

@@ -180,7 +180,7 @@ return {
       --    https://github.com/pmizio/typescript-tools.nvim
       --
       -- But for many setups, the LSP (`ts_ls`) will work just fine
-      ts_ls = {},
+      -- ts_ls = {},
       jsonls = {},
       -- GraphQL Language Server for schema-aware completions
       graphql = {
@@ -189,7 +189,7 @@ return {
 
       tailwindcss = {},
       lua_ls = {
-        -- cmd = { ... },
+        -- cmd = { .. },
         -- filetypes = { ... },
         -- capabilities = {},
         settings = {
@@ -256,11 +256,50 @@ return {
       },
     }
     local opts = { noremap = true, silent = true }
+
+    -- Jump and show virtual line diagnostics for the current line
+    -- from https://www.reddit.com/r/neovim/comments/1jm5atz/replacing_vimdiagnosticopen_float_with_virtual/
+    local function jumpWithVirtLineDiags(jumpCount)
+      pcall(vim.api.nvim_del_augroup_by_name, 'jumpWithVirtLineDiags') -- prevent autocmd for repeated jumps
+
+      vim.diagnostic.jump { count = jumpCount }
+
+      local initialVirtTextConf = vim.diagnostic.config().virtual_text
+      vim.diagnostic.config {
+        virtual_text = false,
+        virtual_lines = { current_line = true },
+      }
+
+      vim.defer_fn(function() -- deferred to not trigger by jump itself
+        vim.api.nvim_create_autocmd('CursorMoved', {
+          desc = 'User(once): Reset diagnostics virtual lines',
+          once = true,
+          group = vim.api.nvim_create_augroup('jumpWithVirtLineDiags', {}),
+          callback = function()
+            vim.diagnostic.config { virtual_lines = false, virtual_text = initialVirtTextConf }
+          end,
+        })
+      end, 1)
+    end
+
+    vim.keymap.set('n', '[d', function()
+      jumpWithVirtLineDiags(-1)
+    end, { desc = 'Previous diagnostic' })
+    vim.keymap.set('n', ']d', function()
+      jumpWithVirtLineDiags(1)
+    end, { desc = 'Next diagnostic' })
+
+    opts.desc = 'Show line diagnostics'
+    vim.keymap.set('n', '<leader>K', vim.diagnostic.open_float, opts)
+
+    opts.desc = 'Show documentation for what is under cursor'
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+
     local on_attach = function(_, bufnr)
       opts.buffer = bufnr
 
       opts.desc = 'Show line diagnostics'
-      vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
+      vim.keymap.set('n', '<leader>K', vim.diagnostic.open_float, opts)
 
       opts.desc = 'Show documentation for what is under cursor'
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
@@ -278,6 +317,6 @@ return {
         client.offset_encoding = 'utf-8'
       end,
     }
-    vim.lsp.enable('sourcekit')
+    vim.lsp.enable 'sourcekit'
   end,
 }

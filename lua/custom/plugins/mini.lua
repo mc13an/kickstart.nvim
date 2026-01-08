@@ -22,7 +22,7 @@ return {
     require('mini.icons').setup()
     require('mini.tabline').setup()
     require('mini.cursorword').setup()
-    require('mini.sessions').setup()
+    -- require('mini.sessions').setup()
     require('mini.files').setup {
       mappings = {
         go_in = 'l',

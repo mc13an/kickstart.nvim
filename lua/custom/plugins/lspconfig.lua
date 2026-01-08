@@ -297,6 +297,13 @@ return {
     opts.desc = 'Show documentation for what is under cursor'
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
 
+    opts.desc = 'Show documentation for what is under cursor'
+    vim.keymap.set('n', 'K', function()
+      vim.lsp.buf.hover {
+        border = 'rounded'
+      }
+    end, opts)
+
     local on_attach = function(_, bufnr)
       opts.buffer = bufnr
 

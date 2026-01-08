@@ -217,6 +217,8 @@ return {
             telemetry = {
               enable = false,
             },
+            -- Fix locale-loader crash by forcing English locale
+            locale = 'en-us',
           },
         },
       },
@@ -260,7 +262,7 @@ return {
       opts.buffer = bufnr
 
       opts.desc = 'Show line diagnostics'
-      vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
+      vim.keymap.set('n', '<leader>hd', vim.diagnostic.open_float, opts)
 
       opts.desc = 'Show documentation for what is under cursor'
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
@@ -278,6 +280,6 @@ return {
         client.offset_encoding = 'utf-8'
       end,
     }
-    vim.lsp.enable('sourcekit')
+    vim.lsp.enable 'sourcekit'
   end,
 }

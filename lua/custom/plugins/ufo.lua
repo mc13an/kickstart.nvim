@@ -19,7 +19,7 @@ return {
       }
       vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
       vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
-      vim.keymap.set('n', '<leader>fM', require('ufo').closeAllFolds, { desc = 'Close all follds' })
+      vim.keymap.set('n', '<leader>fM', require('ufo').closeAllFolds, { desc = 'Close all folds' })
       vim.keymap.set('n', '<leader>fa', 'zA', { desc = 'Toggle all folds at curssor' })
 
       -- Fold level 1

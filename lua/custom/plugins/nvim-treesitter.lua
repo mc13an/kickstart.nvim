@@ -20,7 +20,7 @@ return {
       'typescript',
       'tsx',
       'graphql',
-      'swift',
+      -- 'swift', -- Disabled due to installation issues
     },
     -- Autoinstall languages that are not installed
     auto_install = true,

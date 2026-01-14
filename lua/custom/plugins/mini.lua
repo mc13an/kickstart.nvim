@@ -17,11 +17,12 @@ return {
     -- - sr)'  - [S]urround [R]eplace [)] [']
     require('mini.surround').setup()
     require('mini.indentscope').setup()
-    require('mini.notify').setup()
+    -- require('mini.notify').setup()
     require('mini.animate').setup()
     require('mini.icons').setup()
     require('mini.tabline').setup()
     require('mini.cursorword').setup()
+    require('mini.cmdline').setup()
     -- require('mini.sessions').setup()
     require('mini.files').setup {
       mappings = {

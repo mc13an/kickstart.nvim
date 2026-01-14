@@ -37,6 +37,7 @@ if not vim.g.vscode then
     vim.o.clipboard = 'unnamedplus'
   end)
 
+  vim.opt.termguicolors = true -- Enable 24-bit RGB colors
   -- Enable break indent
   vim.o.breakindent = true
 

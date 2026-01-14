@@ -146,7 +146,8 @@ return {
     local builtin = require 'telescope.builtin'
     vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
     vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-    vim.keymap.set('n', '<leader>sf', '<cmd>Telescope frecency workspace=CWD theme=ivy<cr>', { desc = '[S]earch [F]iles (by frecency)' })
+    vim.keymap.set('n', '<leader>sf', '<cmd>Telescope frecency workspace=CWD theme=ivy<cr>',
+      { desc = '[S]earch [F]iles (by frecency)' })
     vim.keymap.set('n', '<leader>sF', builtin.find_files, { desc = '[S]earch All [F]iles' })
     -- vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[S]earch [F]iles' })
     -- vim.keymap.set('n', '<C-p>', builtin.find_files, { desc = '[S]earch [F]iles' })
@@ -157,6 +158,8 @@ return {
     vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
     vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+
+    vim.keymap.set('n', '<leader>sN', require('telescope').extensions.notify.notify, { desc = '[S]earch [N]otification' })
 
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set('n', '<leader>/', function()

@@ -8,6 +8,7 @@ return {
   opts = {
     ensure_installed = {
       'bash',
+      'regex',
       'diff',
       'html',
       'lua',

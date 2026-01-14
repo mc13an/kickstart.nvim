@@ -20,7 +20,7 @@ return {
     -- require('mini.notify').setup()
     require('mini.animate').setup()
     require('mini.icons').setup()
-    require('mini.tabline').setup()
+    -- require('mini.tabline').setup()
     require('mini.cursorword').setup()
     require('mini.cmdline').setup()
     -- require('mini.sessions').setup()

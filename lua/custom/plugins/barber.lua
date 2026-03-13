@@ -1,6 +1,6 @@
 return {
   'romgrk/barbar.nvim',
-  dependencies = { 'nvim-tree/nvim-web-devicons', 'lweis6991/gitsigns.nvim' },
+  dependencies = { 'nvim-tree/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
   init = function()
     vim.g.barber_auto_setup = false
   end,

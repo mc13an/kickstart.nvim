@@ -240,7 +240,7 @@ return {
 
     -- Jump and show virtual line diagnostics for the current line
     -- from https://www.reddit.com/r/neovim/comments/1jm5atz/replacing_vimdiagnosticopen_float_with_virtual/
-    local function jumpWithVirtLineDiags(jumpCount)
+    local function jumpWithVirtLineDiagnostics(jumpCount)
       pcall(vim.api.nvim_del_augroup_by_name, 'jumpWithVirtLineDiags') -- prevent autocmd for repeated jumps
 
       vim.diagnostic.jump { count = jumpCount }
@@ -264,11 +264,13 @@ return {
     end
 
     vim.keymap.set('n', '[d', function()
-      jumpWithVirtLineDiags(-1)
+      jumpWithVirtLineDiagnostics(-1)
     end, { desc = 'Previous diagnostic' })
     vim.keymap.set('n', ']d', function()
-      jumpWithVirtLineDiags(1)
+      jumpWithVirtLineDiagnostics(1)
     end, { desc = 'Next diagnostic' })
+
+    vim.keymap.set('n', '<leader>lr', '<cmd>LspRestart<cr>', { desc = '[L]sp [R]estart' })
 
     opts.desc = 'Show line diagnostics'
     vim.keymap.set('n', '<leader>K', vim.diagnostic.open_float, opts)
@@ -279,7 +281,7 @@ return {
     opts.desc = 'Show documentation for what is under cursor'
     vim.keymap.set('n', 'K', function()
       vim.lsp.buf.hover {
-        border = 'rounded'
+        border = 'rounded',
       }
     end, opts)
 

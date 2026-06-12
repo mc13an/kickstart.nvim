@@ -1,12 +1,12 @@
 return {
-  -- Highlight, edit, and navigate code
   'nvim-treesitter/nvim-treesitter',
-  branch = 'master',
+  branch = 'main',
+  lazy = false,
   build = ':TSUpdate',
-  main = 'nvim-treesitter.configs', -- Sets main module to use for opts
-  -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-  opts = {
-    ensure_installed = {
+  config = function()
+    require('nvim-treesitter').setup()
+
+    require('nvim-treesitter').install({
       'bash',
       'regex',
       'diff',
@@ -21,23 +21,17 @@ return {
       'typescript',
       'tsx',
       'graphql',
-      -- 'swift', -- Disabled due to installation issues
-    },
-    -- Autoinstall languages that are not installed
-    auto_install = true,
-    highlight = {
-      enable = true,
-      -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-      --  If you are experiencing weird indenting issues, add the language to
-      --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-      additional_vim_regex_highlighting = { 'ruby' },
-    },
-    indent = { enable = true, disable = { 'ruby' } },
-  },
-  -- There are additional nvim-treesitter modules that you can use to interact
-  -- with nvim-treesitter. You should go explore a few and see what interests you:
-  --
-  --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-  --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-  --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+    })
+
+    vim.api.nvim_create_autocmd('FileType', {
+      callback = function(args)
+        local buf = args.buf
+        local ft = vim.bo[buf].filetype
+        local lang = vim.treesitter.language.get_lang(ft)
+        if lang and pcall(vim.treesitter.start, buf, lang) then
+          vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end
+      end,
+    })
+  end,
 }

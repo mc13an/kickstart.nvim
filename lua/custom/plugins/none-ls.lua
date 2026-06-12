@@ -13,21 +13,21 @@ return {
       null_ls.builtins.formatting.swiftlint,
       -- Diagnostics
       null_ls.builtins.diagnostics.swiftlint,
-      require('none-ls.diagnostics.eslint_d').with({
-        extra_filetypes = { 'graphql' }
-      }),
+      require('none-ls.diagnostics.eslint_d').with {
+        extra_filetypes = { 'graphql' },
+      },
       cspell.diagnostics.with {
         diagnostics_postprocess = function(diagnostic)
           diagnostic.severity = vim.diagnostic.severity.HINT
         end,
       },
       -- CodeActions
-      require('none-ls.code_actions.eslint_d').with({
-        extra_filetypes = { 'graphql' }
-      }),
+      require('none-ls.code_actions.eslint_d').with {
+        extra_filetypes = { 'graphql' },
+      },
       cspell.code_actions,
     }
-    null_ls.setup({ debug = true, sources = sources })
+    null_ls.setup { debug = true, sources = sources }
     --     null_ls.setup {
     --       debug = true, -- Enable debug mode to see what's happening
     --       sources = {
